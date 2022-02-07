@@ -1,3 +1,4 @@
+import 'package:alecado/Screens/LoginScreen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,8 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,12 +30,22 @@ class _SignUpState extends State<SignUp> {
             padding: EdgeInsets.all(20.0),
             child: Center(
                 child: Text(
-              "Login",
+              "SignUp",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.blue,
                   fontSize: 30),
             )),
+          ),
+          Container(
+            padding: const EdgeInsets.all(20),
+            child: TextField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Name',
+              ),
+            ),
           ),
           Container(
             padding: const EdgeInsets.all(20),
@@ -69,6 +82,20 @@ class _SignUpState extends State<SignUp> {
                   await _signUp(email, pwd);
                 },
               )),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            const Text('Already have an account?'),
+            TextButton(
+              child: const Text(
+                'Login',
+                style: TextStyle(fontSize: 20),
+              ),
+              onPressed: () {
+                //signup screen
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (ctx) => const LoginScreen()));
+              },
+            )
+          ])
         ],
       )),
     );
@@ -78,6 +105,18 @@ class _SignUpState extends State<SignUp> {
     try {
       FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: pwd);
+      Navigator.pop(context);
+      //await _login(email, pwd);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  _login(email, pwd) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
     } catch (e) {
       print(e);
     }
