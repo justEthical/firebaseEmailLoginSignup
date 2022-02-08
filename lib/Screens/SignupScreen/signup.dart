@@ -1,3 +1,4 @@
+import 'package:alecado/Screens/HomeScreen/home_screen.dart';
 import 'package:alecado/Screens/LoginScreen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -103,9 +104,10 @@ class _SignUpState extends State<SignUp> {
 
   _signUp(email, pwd) async {
     try {
-      FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: pwd);
-      Navigator.pop(context);
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (ctx) => const HomeScreen()), (route) => false);
       //await _login(email, pwd);
     } catch (e) {
       print(e);
