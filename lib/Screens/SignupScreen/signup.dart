@@ -2,6 +2,7 @@ import 'package:alecado/Screens/HomeScreen/home_screen.dart';
 import 'package:alecado/Screens/LoginScreen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -80,6 +81,7 @@ class _SignUpState extends State<SignUp> {
                   var pwd = passwordController.text.trim();
                   print(emailController.text);
                   print(passwordController.text);
+                  //_processing();
                   await _signUp(email, pwd);
                 },
               )),
@@ -106,13 +108,27 @@ class _SignUpState extends State<SignUp> {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: pwd);
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (ctx) => const HomeScreen()), (route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (ctx) => const HomeScreen()),
+          (route) => false);
       //await _login(email, pwd);
     } catch (e) {
+      var prob = "$e".split("] ")[1];
+      Fluttertoast.showToast(msg: "$prob");
+      //Fluttertoast.showToast(msg: "$e");
       print(e);
     }
   }
 
-
+  _processing() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+  }
 }

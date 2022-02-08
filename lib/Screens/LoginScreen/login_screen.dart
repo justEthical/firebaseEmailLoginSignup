@@ -1,6 +1,7 @@
 import 'package:alecado/Screens/SignupScreen/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -63,6 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Text('Login'),
                 onPressed: () async {
                   //signup screen
+                  //_processing();
                   print(emailController.text);
                   print(passwordController.text);
                   await _login();
@@ -93,7 +95,20 @@ class _LoginScreenState extends State<LoginScreen> {
           email: emailController.text.trim(),
           password: passwordController.text.trim());
     } catch (e) {
+      var prob = "$e".split("] ")[1];
+      Fluttertoast.showToast(msg: "$prob");
       print(e);
     }
+  }
+
+  _processing() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
   }
 }

@@ -1,3 +1,4 @@
+import 'package:alecado/Screens/LoginScreen/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("HomeScreen"),
+        title: const Text("HomeScreen"),
       ),
       body: Center(
         child: Column(
@@ -23,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Text(
               "${usr!.email}",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             Container(
               width: MediaQuery.of(context).size.width - 50,
@@ -36,6 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut();
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => const LoginScreen()),
+                      (route) => false);
                 },
               ),
             )
