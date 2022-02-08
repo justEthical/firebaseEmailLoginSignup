@@ -73,7 +73,7 @@ class _SignUpState extends State<SignUp> {
               height: 50,
               padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
               child: ElevatedButton(
-                child: const Text('SignUP'),
+                child: const Text('SignUp'),
                 onPressed: () async {
                   //signup screen
                   var email = emailController.text.trim();
@@ -114,13 +114,5 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
-  _login(email, pwd) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
-    } catch (e) {
-      print(e);
-    }
-  }
+
 }
